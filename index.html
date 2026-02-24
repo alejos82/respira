@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Respira Café de Colombia</title>
+  <meta name="description" content="Describe en una frase lo que haces y por qué importa." />
+  <style>
+    :root { --bg:#0b0f19; --card:#121a2b; --text:#e8eefc; --muted:#a8b3cf; --accent:#6aa5ff; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:linear-gradient(180deg,#070a12, #0b0f19); color:var(--text); }
+    a{ color:inherit; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:32px 20px; }
+    .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand{ font-weight:700; letter-spacing:.2px; }
+    .btn{ display:inline-block; padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.12); text-decoration:none; }
+    .btn.primary{ background:rgba(106,165,255,.16); border-color:rgba(106,165,255,.35); }
+    .hero{ padding:56px 0 26px; display:grid; grid-template-columns: 1.2fr .8fr; gap:26px; align-items:center; }
+    .h1{ font-size:44px; line-height:1.05; margin:0 0 12px; }
+    .sub{ color:var(--muted); font-size:18px; margin:0 0 18px; }
+    .ctaRow{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .pillRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .pill{ font-size:13px; color:var(--muted); border:1px solid rgba(255,255,255,.12); padding:8px 10px; border-radius:999px; }
+    .card{ background:rgba(18,26,43,.7); border:1px solid rgba(255,255,255,.10); border-radius:18px; padding:18px; backdrop-filter: blur(10px); }
+    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
+    .section{ padding:26px 0; }
+    .kicker{ color:var(--muted); text-transform:uppercase; letter-spacing:.18em; font-size:12px; margin:0 0 10px; }
+    h2{ margin:0 0 12px; font-size:28px; }
+    p{ margin:0 0 12px; color:var(--muted); }
+    ul{ margin:0; padding-left:18px; color:var(--muted); }
+    li{ margin:6px 0; }
+    .how{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; }
+    .stepNum{ font-weight:700; color:var(--accent); }
+    .faq details{ border:1px solid rgba(255,255,255,.10); border-radius:14px; padding:14px; background:rgba(18,26,43,.5); }
+    .faq summary{ cursor:pointer; font-weight:600; }
+    .form{ display:grid; gap:10px; }
+    input, textarea{ width:100%; padding:12px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.14); background:rgba(11,15,25,.7); color:var(--text); }
+    .foot{ border-top:1px solid rgba(255,255,255,.08); padding-top:20px; color:var(--muted); font-size:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; padding-top:34px; }
+      .h1{ font-size:36px; }
+      .grid3, .how{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <div class="brand">TU MARCA</div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <a class="btn" href="#beneficios">Beneficios</a>
+        <a class="btn primary" href="#contacto">Quiero una demo</a>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div>
+        <p class="kicker">Propuesta de valor</p>
+        <h1 class="h1">Ayudamos a <u>tu cliente</u> a lograr <u>resultado</u> sin <u>dolor</u>.</h1>
+        <p class="sub">Una frase clara: qué haces, para quién y por qué es mejor. (Aquí va tu promesa principal.)</p>
+        <div class="ctaRow">
+          <a class="btn primary" href="#contacto">Pedir demo / cotización</a>
+          <a class="btn" href="#como">Ver cómo funciona</a>
+        </div>
+        <div class="pillRow">
+          <span class="pill">✅ Rápido de implementar</span>
+          <span class="pill">🔒 Enfoque en seguridad</span>
+          <span class="pill">📈 Mejor conversión</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="kicker">En 30 segundos</p>
+        <h2>¿Qué obtienes?</h2>
+        <ul>
+          <li>Resultado 1 (ej: más leads, menos tiempo, menos costo).</li>
+          <li>Resultado 2 (ej: control, trazabilidad, reportes).</li>
+          <li>Resultado 3 (ej: automatización y seguimiento).</li>
+        </ul>
+        <p style="margin-top:12px;">📩 <a href="#contacto">Déjanos tus datos</a> y te contactamos hoy.</p>
+      </div>
+    </div>
+
+    <!-- PROBLEMA / SOLUCIÓN -->
+    <div class="section grid3">
+      <div class="card">
+        <p class="kicker">Problema</p>
+        <h2>Hoy pasa esto</h2>
+        <p>Describe el dolor real en lenguaje simple (sin tecnicismos).</p>
+      </div>
+      <div class="card">
+        <p class="kicker">Costo</p>
+        <h2>Te cuesta</h2>
+        <p>Tiempo, plata, errores, mala experiencia del cliente, riesgo…</p>
+      </div>
+      <div class="card">
+        <p class="kicker">Solución</p>
+        <h2>Nosotros lo resolvemos</h2>
+        <p>En una frase: qué haces distinto y por qué funciona.</p>
+      </div>
+    </div>
+
+    <!-- BENEFICIOS -->
+    <div id="beneficios" class="section">
+      <p class="kicker">Beneficios</p>
+      <h2>Lo que mejora desde el día 1</h2>
+      <div class="grid3">
+        <div class="card"><h3>🚀 Velocidad</h3><p>Reduce tiempos y fricción en el proceso.</p></div>
+        <div class="card"><h3>🎯 Conversión</h3><p>Mejora el embudo con seguimiento y claridad.</p></div>
+        <div class="card"><h3>🧾 Trazabilidad</h3><p>Registros, evidencia y reportes para control.</p></div>
+      </div>
+    </div>
+
+    <!-- CÓMO FUNCIONA -->
+    <div id="como" class="section">
+      <p class="kicker">Cómo funciona</p>
+      <h2>3 pasos</h2>
+      <div class="how">
+        <div class="card">
+          <div class="stepNum">1) Configura</div>
+          <p>Te guiamos con una puesta en marcha simple.</p>
+        </div>
+        <div class="card">
+          <div class="stepNum">2) Ejecuta</div>
+          <p>Tu equipo usa el flujo principal sin complicarse.</p>
+        </div>
+        <div class="card">
+          <div class="stepNum">3) Mide</div>
+          <p>Dashboards + reportes para mejorar semana a semana.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section faq">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>FAQ</h2>
+      <div style="display:grid; gap:10px;">
+        <details>
+          <summary>¿Cuánto cuesta?</summary>
+          <p>Coloca “desde $X/mes” o “te cotizamos según tamaño”.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto tarda implementarlo?</summary>
+          <p>Ej: “48 horas” o “1 semana”, según tu realidad.</p>
+        </details>
+        <details>
+          <summary>¿Qué necesito para empezar?</summary>
+          <p>Ej: “Nombre, correo, y una breve descripción de tu operación”.</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- CONTACTO -->
+    <div id="contacto" class="section">
+      <p class="kicker">Contacto</p>
+      <h2>Te contactamos</h2>
+      <p>Déjanos tus datos y te escribimos por WhatsApp/correo.</p>
+
+      <!-- Para producción: conectar con Formspree, Netlify Forms o tu backend -->
+      <form class="card form" onsubmit="return handleSubmit(event)">
+        <input name="nombre" placeholder="Tu nombre" required />
+        <input type="email" name="email" placeholder="Tu email" required />
+        <input name="whatsapp" placeholder="Tu WhatsApp (opcional)" />
+        <textarea name="mensaje" rows="4" placeholder="Cuéntame qué necesitas (opcional)"></textarea>
+        <button class="btn primary" type="submit">Enviar</button>
+        <div id="msg" style="color:var(--muted); font-size:14px;"></div>
+      </form>
+    </div>
+
+    <div class="foot">
+      <div>© <span id="year"></span> TU MARCA — Todos los derechos reservados.</div>
+      <div><a href="#">Política de privacidad</a> · <a href="#">Términos</a></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function handleSubmit(e){
+      e.preventDefault();
+      const msg = document.getElementById("msg");
+      msg.textContent = "✅ Listo. (Demo) Aquí conectaríamos el envío real del formulario.";
+      // Aquí luego lo conectamos a: Formspree / Netlify Forms / tu API
+      e.target.reset();
+      return false;
+    }
+  </script>
+</body>
+</html>
