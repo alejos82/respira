@@ -9,25 +9,24 @@
 
   <style>
     :root{
+      /* Dorado inspirado en tu logo */
+      --gold: #d8b57a;
+      --gold2:#b07a52;
+
       --ink: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --faint: rgba(255,255,255,.52);
       --line: rgba(255,255,255,.16);
 
-      --shadow: 0 24px 80px rgba(0,0,0,.48);
       --glass: rgba(16,12,10,.28);
       --glass2: rgba(16,12,10,.18);
 
-      --copper: #b07a52;
-      --r: 18px;
-      --r2: 999px;
-
+      --shadow: 0 26px 90px rgba(0,0,0,.52);
       --ease: cubic-bezier(.22,.9,.22,1);
-      --t1: 220ms var(--ease);
-      --t2: 900ms var(--ease);
-      --t3: 1400ms var(--ease);
-
-      --ui: 14px;
+      --fade: 900ms var(--ease);
+      --ui: 16px;
+      --r: 20px;
+      --r2: 999px;
     }
 
     *{ box-sizing:border-box; }
@@ -36,7 +35,7 @@
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background:#0f0c0a;
       color: var(--ink);
-      overflow:hidden; /* single screen */
+      overflow:hidden; /* una sola pantalla */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
@@ -51,7 +50,7 @@
       background:#0f0c0a;
     }
 
-    /* Two layers for perfect crossfade */
+    /* crossfade layers */
     .bg{
       position:absolute;
       inset:0;
@@ -64,28 +63,26 @@
     .bg.a{ opacity: 1; }
     .bg.b{ opacity: 0; }
 
-    /* Gentle “Ken Burns” motion (subtle) */
-    .kb{
-      animation: kbMove 12s var(--ease) both;
-    }
+    /* subtle motion */
+    .kb{ animation: kbMove 12s cubic-bezier(.22,.9,.22,1) both; }
     @keyframes kbMove{
       0%   { transform: scale(1.03) translate3d(0,0,0); }
       100% { transform: scale(1.08) translate3d(-1.2%, -1.2%, 0); }
     }
 
-    /* Cinematic overlay */
+    /* cinematic overlay */
     .vignette{
       position:absolute;
       inset:0;
       pointer-events:none;
       background:
-        radial-gradient(900px 520px at 18% 22%, rgba(176,122,82,.16), transparent 62%),
-        radial-gradient(1000px 620px at 88% 14%, rgba(0,0,0,.30), transparent 58%),
-        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.50));
+        radial-gradient(900px 520px at 50% 30%, rgba(216,181,122,.14), transparent 62%),
+        radial-gradient(1000px 620px at 85% 18%, rgba(0,0,0,.30), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.58));
       z-index: 2;
     }
 
-    /* Fine grain (very subtle, premium feel) */
+    /* subtle grain */
     .grain{
       position:absolute; inset:0;
       pointer-events:none;
@@ -97,170 +94,105 @@
       mix-blend-mode: overlay;
     }
 
-    /* ===== Minimal UI ===== */
-    .top{
-      position:absolute;
-      left: 0; right: 0; top: 0;
-      z-index: 5;
-      padding: 18px 18px 0;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap: 16px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: var(--r2);
-      background: var(--glass2);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(12px);
-    }
-    .mark{
-      width: 34px; height: 34px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(176,122,82,.40), rgba(255,255,255,.10));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 14px 36px rgba(0,0,0,.24);
-      flex: 0 0 auto;
-    }
-    .brand strong{
-      display:block;
-      font-weight: 950;
-      letter-spacing: .2px;
-      line-height: 1.05;
-      font-size: 14px;
-    }
-    .brand span{
-      display:block;
-      margin-top: 2px;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-      letter-spacing: .02em;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: var(--r2);
-      background: var(--glass2);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(12px);
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .dot{
-      width: 7px; height: 7px;
-      border-radius: 99px;
-      background: var(--copper);
-      box-shadow: 0 0 0 5px rgba(176,122,82,.14);
-    }
-
-    /* Center copy block (clean editorial) */
+    /* ===== Center Layout (logo + title + BIG CTA) ===== */
     .center{
       position:absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
+      inset: 0;
       z-index: 6;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap: 16px;
-      flex-wrap:wrap;
+      display:grid;
+      place-items:center;
+      padding: 18px;
     }
 
-    .copy{
-      max-width: 680px;
-      padding: 18px 18px;
-      border-radius: var(--r);
+    .card{
+      width: min(980px, calc(100vw - 28px));
+      border-radius: 28px;
       background: var(--glass);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
       box-shadow: var(--shadow);
+      padding: 26px 22px 22px;
+      text-align:center;
     }
-    h1{
+
+    .logo{
+      width: min(300px, 70vw);
+      height: auto;
+      display:block;
+      margin: 0 auto 14px;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.38));
+      border-radius: 14px;
+    }
+
+    .title{
       margin: 0 0 10px;
-      font-size: clamp(30px, 3.4vw, 54px);
-      line-height: 1.02;
+      font-size: clamp(24px, 3.1vw, 42px);
+      line-height: 1.05;
       letter-spacing: -0.03em;
-      font-weight: 980;
+      font-weight: 950;
+      color: var(--gold); /* color del logo */
+      text-shadow: 0 10px 30px rgba(0,0,0,.35);
     }
-    .sub{
-      margin: 0;
-      color: var(--muted);
+    .subtitle{
+      margin: 0 auto 18px;
+      color: rgba(255,255,255,.76);
       font-size: 16px;
       line-height: 1.7;
-      max-width: 62ch;
+      max-width: 72ch;
       font-weight: 650;
     }
 
-    .actions{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    .btn{
+    .bigCta{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap: 10px;
-      padding: 12px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.08);
-      color: var(--ink);
-      font-weight: 920;
+      gap: 12px;
+      padding: 18px 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(216,181,122,.40);
+      background: linear-gradient(135deg, rgba(216,181,122,.34), rgba(255,255,255,.10));
+      color: rgba(255,255,255,.94);
+      font-weight: 950;
+      font-size: 18px;
       cursor:pointer;
       user-select:none;
-      backdrop-filter: blur(12px);
-      transition: transform var(--t1), background var(--t1), border-color var(--t1);
-      box-shadow: 0 14px 40px rgba(0,0,0,.26);
-      white-space: nowrap;
+      transition: transform 180ms var(--ease), background 180ms var(--ease), border-color 180ms var(--ease);
+      box-shadow: 0 18px 50px rgba(0,0,0,.30);
+      width: min(520px, 100%);
     }
-    .btn:hover{
+    .bigCta:hover{
       transform: translateY(-2px);
-      background: rgba(255,255,255,.11);
-      border-color: rgba(255,255,255,.18);
+      border-color: rgba(216,181,122,.58);
+      background: linear-gradient(135deg, rgba(216,181,122,.40), rgba(255,255,255,.12));
     }
-    .btn:active{ transform: translateY(0); }
+    .bigCta:active{ transform: translateY(0); }
 
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(176,122,82,.38), rgba(255,255,255,.10));
-      border-color: rgba(176,122,82,.38);
-    }
-
-    .btn.icon{
-      width: 46px;
-      height: 46px;
-      padding: 0;
-      border-radius: 18px;
-      font-size: 18px;
-      line-height: 1;
+    .waIcon{
+      width: 22px; height: 22px;
+      display:inline-block;
+      flex: 0 0 auto;
     }
 
-    .hint{
-      color: var(--faint);
-      font-size: 12px;
+    .micro{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      color: rgba(255,255,255,.64);
+      font-size: 12.5px;
       font-weight: 700;
       letter-spacing: .02em;
-      margin-top: 10px;
     }
+    .sep{ opacity:.55; }
 
-    /* Dots */
-    .dots{
+    /* Minimal dots bottom (optional) */
+    .dotsWrap{
+      position:absolute;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      z-index: 7;
       display:flex;
       gap: 8px;
       align-items:center;
@@ -277,32 +209,21 @@
       border: none;
       cursor:pointer;
       padding:0;
-      transition: transform var(--t1), background var(--t1);
+      transition: transform 160ms var(--ease), background 160ms var(--ease);
     }
     .dotBtn:hover{ transform: scale(1.2); background: rgba(255,255,255,.46); }
     .dotBtn.active{ background: rgba(255,255,255,.86); }
 
-    /* Right-bottom micro controls */
-    .controls{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-
-    /* Small screens */
-    @media (max-width: 740px){
-      .pill{ display:none; }
-      .copy{ width: 100%; }
-      .controls{ width: 100%; justify-content:space-between; }
-      .btn.icon{ width: 44px; height: 44px; border-radius: 16px; }
-    }
-
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .kb{ animation: none !important; }
+      .kb{ animation:none !important; }
       .bg{ transition:none !important; }
-      *{ scroll-behavior:auto !important; }
+    }
+
+    @media (max-width: 560px){
+      .card{ padding: 22px 16px 18px; }
+      .subtitle{ font-size: 15px; }
+      .bigCta{ font-size: 17px; padding: 16px 18px; }
     }
   </style>
 </head>
@@ -314,87 +235,72 @@
     <div class="vignette"></div>
     <div class="grain"></div>
 
-    <div class="top">
-      <div class="brand">
-        <div class="mark" aria-hidden="true"></div>
-        <div>
-          <strong>Respira Café</strong>
-          <span>Frontino, Antioquia • Café de Colombia</span>
+    <!-- Center content (single screen) -->
+    <div class="center">
+      <div class="card">
+        <!-- LOGO: pon logo.jpeg junto a este HTML -->
+        <img class="logo" src="img/logo.png" alt="Respira Café" />
+
+        <h1 class="title">Café colombiano</h1>
+
+        <p class="subtitle">
+          Café molido de montaña, libre de pesticidas. Una experiencia limpia, tranquila y auténtica.
+          
+          <br>
+          Haz tu pedido en segundos.
+        </p>
+
+        <button class="bigCta" id="ctaWA">
+          <svg class="waIcon" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+            <path d="M19.11 17.47c-.28-.14-1.64-.8-1.9-.9-.26-.1-.45-.14-.64.14-.19.28-.73.9-.9 1.09-.17.19-.33.21-.61.07-.28-.14-1.19-.44-2.27-1.4-.84-.75-1.41-1.68-1.57-1.96-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34 0 1.38 1.01 2.71 1.15 2.9.14.19 1.99 3.03 4.82 4.25.67.29 1.19.46 1.6.59.67.21 1.28.18 1.76.11.54-.08 1.64-.67 1.87-1.32.23-.65.23-1.2.16-1.32-.07-.12-.26-.19-.54-.33z"/>
+            <path d="M26.67 5.33A14.62 14.62 0 0 0 16.02 1C8.06 1 1.6 7.46 1.6 15.42c0 2.53.66 5 1.9 7.18L1.5 31l8.58-1.95a14.34 14.34 0 0 0 6.94 1.77h.01c7.96 0 14.42-6.46 14.42-14.42 0-3.85-1.5-7.47-4.18-10.07zM16.02 28.4h-.01a12 12 0 0 1-6.12-1.67l-.44-.26-5.09 1.16 1.08-4.96-.29-.51a12 12 0 1 1 22.1-6.75c0 6.62-5.39 12-12.03 12z"/>
+          </svg>
+          Comprar
+        </button>
+
+        <div class="micro">          
+          
         </div>
       </div>
-
-      <div class="pill" aria-label="Propuesta de valor">
-        <span class="dot" aria-hidden="true"></span>
-        Libre de pesticidas
-      </div>
     </div>
 
-    <div class="center">
-      <div class="copy">
-        <h1>
-          Café de montaña,<br/>
-          <span style="color: rgba(176,122,82,.95);">minimal y auténtico</span>.
-        </h1>
-        <p class="sub">
-          Café molido de las montañas de Frontino, Antioquia. Un sabor equilibrado, aroma presente
-          y un cultivo más limpio — sin ruido, sin exceso.
-        </p>
-        <div class="hint" id="hint">Desliza en móvil · Usa ← → en teclado</div>
-      </div>
-
-      <div class="controls">
-        <div class="dots" id="dots" aria-label="Selector de imágenes"></div>
-
-        <button class="btn icon" id="prev" aria-label="Anterior">‹</button>
-        <button class="btn icon" id="next" aria-label="Siguiente">›</button>
-
-        <button class="btn primary" id="ctaWA" aria-label="Comprar por WhatsApp">
-          WhatsApp
-        </button>
-      </div>
-    </div>
+    <!-- Minimal dots -->
+    <div class="dotsWrap" id="dots" aria-label="Selector de imágenes"></div>
   </div>
 
   <script>
-    // ====== CONFIG ======
+    // ===== CONFIG =====
     // WhatsApp: 57 + número (sin +, sin espacios). Ej: 573001234567
-    const WHATSAPP_NUMBER = "57XXXXXXXXXX"; // <-- CAMBIA ESTO
+    const WHATSAPP_NUMBER = "573004154235"; // <-- CAMBIA ESTO
 
-    // 10 imágenes (background). Puedes reemplazarlas por tus fotos.
-    // Tip pro: usa imágenes coherentes en tono/estética para que se vea “marca”.
+    // 10 imágenes bonitas en background (sin banano).
+    // Reemplázalas por tus fotos cuando las tengas.
     const IMAGES = [
       "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=2400&q=85",
-      "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=2400&q=85",
-      "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=2400&q=85",      
       "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1507133750040-4a8f57021571?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=2400&q=85"
     ];
 
-    // Duración por slide (ms)
     const SLIDE_MS = 5200;
     const FADE_MS  = 900;
 
-    // ====== ELEMENTS ======
     const bgA = document.getElementById("bgA");
     const bgB = document.getElementById("bgB");
     const dotsEl = document.getElementById("dots");
-    const prevBtn = document.getElementById("prev");
-    const nextBtn = document.getElementById("next");
-    const ctaWA = document.getElementById("ctaWA");
     const stage = document.getElementById("stage");
+    const ctaWA = document.getElementById("ctaWA");
 
-    // Reduced motion
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // ====== PRELOAD (avoids “template jitter”) ======
+    // Preload
     IMAGES.forEach(src => { const img = new Image(); img.src = src; });
 
-    // ====== SLIDER STATE ======
     let index = 0;
     let showingA = true;
     let timer = null;
@@ -403,8 +309,7 @@
       el.style.backgroundImage = `url("${src}")`;
       if (!reduceMotion) {
         el.classList.remove("kb");
-        // restart animation
-        void el.offsetWidth;
+        void el.offsetWidth; // restart animation
         el.classList.add("kb");
       }
     }
@@ -424,7 +329,6 @@
       dotButtons.forEach((d, i) => d.classList.toggle("active", i === index));
     }
 
-    // Crossfade
     function goTo(i, userInitiated=false){
       const nextIndex = (i + IMAGES.length) % IMAGES.length;
       if (nextIndex === index && !userInitiated) return;
@@ -437,16 +341,14 @@
 
       setBg(inEl, IMAGES[index]);
 
-      // start fade
-      inEl.style.transition = reduceMotion ? "none" : `opacity ${FADE_MS}ms var(--ease)`;
-      outEl.style.transition = reduceMotion ? "none" : `opacity ${FADE_MS}ms var(--ease)`;
+      inEl.style.transition  = reduceMotion ? "none" : `opacity ${FADE_MS}ms cubic-bezier(.22,.9,.22,1)`;
+      outEl.style.transition = reduceMotion ? "none" : `opacity ${FADE_MS}ms cubic-bezier(.22,.9,.22,1)`;
 
       inEl.style.opacity = "1";
       outEl.style.opacity = "0";
 
       showingA = !showingA;
 
-      // reset autoplay
       if (timer) clearInterval(timer);
       timer = setInterval(() => goTo(index + 1), SLIDE_MS);
     }
@@ -455,37 +357,29 @@
     setBg(bgA, IMAGES[0]);
     bgA.style.opacity = "1";
     bgB.style.opacity = "0";
-
     timer = setInterval(() => goTo(index + 1), SLIDE_MS);
 
-    // Controls
-    prevBtn.addEventListener("click", () => goTo(index - 1, true));
-    nextBtn.addEventListener("click", () => goTo(index + 1, true));
-
-    // Keyboard
+    // Keyboard arrows
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") goTo(index - 1, true);
       if (e.key === "ArrowRight") goTo(index + 1, true);
     });
 
-    // Swipe (basic, premium-feel)
+    // Swipe basic
     let touchX = null;
     stage.addEventListener("touchstart", (e) => { touchX = e.touches[0].clientX; }, {passive:true});
     stage.addEventListener("touchend", (e) => {
       if (touchX === null) return;
       const dx = e.changedTouches[0].clientX - touchX;
       touchX = null;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) goTo(index + 1, true);
-        else goTo(index - 1, true);
-      }
+      if (Math.abs(dx) > 40) (dx < 0 ? goTo(index + 1, true) : goTo(index - 1, true));
     }, {passive:true});
 
     // WhatsApp CTA
     function waMessage(){
       return encodeURIComponent(
         "Hola 👋 Vengo de Respira Café. " +
-        "Quiero comprar café molido de Frontino (libre de pesticidas). " +
+        "Quiero comprar café molido (libre de pesticidas). " +
         "¿Qué presentaciones y precios tienen hoy?"
       );
     }
