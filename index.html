@@ -16,15 +16,12 @@
       --ink: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --faint: rgba(255,255,255,.52);
-      --line: rgba(255,255,255,.16);
 
       --glass: rgba(16,12,10,.28);
       --glass2: rgba(16,12,10,.18);
 
       --shadow: 0 26px 90px rgba(0,0,0,.52);
       --ease: cubic-bezier(.22,.9,.22,1);
-      --fade: 900ms var(--ease);
-      --ui: 16px;
       --r: 20px;
       --r2: 999px;
     }
@@ -41,7 +38,6 @@
       text-rendering: optimizeLegibility;
     }
 
-    /* ===== Fullscreen Stage ===== */
     .stage{
       position: relative;
       width: 100vw;
@@ -64,13 +60,12 @@
     .bg.b{ opacity: 0; }
 
     /* subtle motion */
-    .kb{ animation: kbMove 12s cubic-bezier(.22,.9,.22,1) both; }
+    .kb{ animation: kbMove 12s var(--ease) both; }
     @keyframes kbMove{
       0%   { transform: scale(1.03) translate3d(0,0,0); }
       100% { transform: scale(1.08) translate3d(-1.2%, -1.2%, 0); }
     }
 
-    /* cinematic overlay */
     .vignette{
       position:absolute;
       inset:0;
@@ -82,7 +77,6 @@
       z-index: 2;
     }
 
-    /* subtle grain */
     .grain{
       position:absolute; inset:0;
       pointer-events:none;
@@ -94,7 +88,7 @@
       mix-blend-mode: overlay;
     }
 
-    /* ===== Center Layout (logo + title + BIG CTA) ===== */
+    /* center */
     .center{
       position:absolute;
       inset: 0;
@@ -130,9 +124,10 @@
       line-height: 1.05;
       letter-spacing: -0.03em;
       font-weight: 950;
-      color: var(--gold); /* color del logo */
+      color: var(--gold);
       text-shadow: 0 10px 30px rgba(0,0,0,.35);
     }
+
     .subtitle{
       margin: 0 auto 18px;
       color: rgba(255,255,255,.76);
@@ -142,6 +137,7 @@
       font-weight: 650;
     }
 
+    /* CTA (texto NO negro) */
     .bigCta{
       display:inline-flex;
       align-items:center;
@@ -151,7 +147,7 @@
       border-radius: 18px;
       border: 1px solid rgba(216,181,122,.40);
       background: linear-gradient(135deg, rgba(216,181,122,.34), rgba(255,255,255,.10));
-      color: rgba(255,255,255,.94);
+      color: rgba(255,255,255,.96);           /* <- forzado */
       font-weight: 950;
       font-size: 18px;
       cursor:pointer;
@@ -159,11 +155,12 @@
       transition: transform 180ms var(--ease), background 180ms var(--ease), border-color 180ms var(--ease);
       box-shadow: 0 18px 50px rgba(0,0,0,.30);
       width: min(520px, 100%);
+      text-shadow: 0 6px 18px rgba(0,0,0,.25); /* <- ayuda contraste */
     }
     .bigCta:hover{
       transform: translateY(-2px);
       border-color: rgba(216,181,122,.58);
-      background: linear-gradient(135deg, rgba(216,181,122,.40), rgba(255,255,255,.12));
+      background: linear-gradient(135deg, rgba(216,181,122,.42), rgba(255,255,255,.12));
     }
     .bigCta:active{ transform: translateY(0); }
 
@@ -171,22 +168,52 @@
       width: 22px; height: 22px;
       display:inline-block;
       flex: 0 0 auto;
+      fill: rgba(255,255,255,.96); /* <- blanco, no negro */
     }
 
-    .micro{
+    /* ===== Social debajo del botón ===== */
+    .socialRow{
       margin-top: 14px;
       display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
+      align-items:center;
       justify-content:center;
-      color: rgba(255,255,255,.64);
-      font-size: 12.5px;
-      font-weight: 700;
-      letter-spacing: .02em;
+      gap: 16px;
+      flex-wrap:wrap;
     }
-    .sep{ opacity:.55; }
+    .socialLink{
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border: 1px solid rgba(216,181,122,.45);
+      background: rgba(16,12,10,.32);
+      backdrop-filter: blur(10px);
+      transition: transform 180ms var(--ease), background 180ms var(--ease), border-color 180ms var(--ease);
+      text-decoration:none;
+    }
+    .socialLink:hover{
+      transform: translateY(-3px);
+      border-color: rgba(216,181,122,.75);
+      background: rgba(216,181,122,.12);
+    }
+    .socialLink svg{
+      width: 20px;
+      height: 20px;
+      display:block;
+    }
+    /* Íconos en dorado del logo */
+    .iconFill{ fill: var(--gold); }
+    .iconStroke{
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
-    /* Minimal dots bottom (optional) */
+    /* Minimal dots bottom */
     .dotsWrap{
       position:absolute;
       left: 50%;
@@ -214,16 +241,17 @@
     .dotBtn:hover{ transform: scale(1.2); background: rgba(255,255,255,.46); }
     .dotBtn.active{ background: rgba(255,255,255,.86); }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .kb{ animation:none !important; }
       .bg{ transition:none !important; }
+      .bigCta, .socialLink{ transition:none !important; }
     }
 
     @media (max-width: 560px){
       .card{ padding: 22px 16px 18px; }
       .subtitle{ font-size: 15px; }
       .bigCta{ font-size: 17px; padding: 16px 18px; }
+      .socialLink{ width: 44px; height: 44px; }
     }
   </style>
 </head>
@@ -235,52 +263,65 @@
     <div class="vignette"></div>
     <div class="grain"></div>
 
-    <!-- Center content (single screen) -->
     <div class="center">
       <div class="card">
-        <!-- LOGO: pon logo.jpeg junto a este HTML -->
         <img class="logo" src="img/logo.png" alt="Respira Café" />
 
         <h1 class="title">Café colombiano</h1>
 
         <p class="subtitle">
           Café molido de montaña, libre de pesticidas. Una experiencia limpia, tranquila y auténtica.
-          
-          <br>
-          Haz tu pedido en segundos.
+          <br>Haz tu pedido en segundos.
         </p>
 
         <button class="bigCta" id="ctaWA">
-          <svg class="waIcon" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+          <svg class="waIcon" viewBox="0 0 32 32" aria-hidden="true">
             <path d="M19.11 17.47c-.28-.14-1.64-.8-1.9-.9-.26-.1-.45-.14-.64.14-.19.28-.73.9-.9 1.09-.17.19-.33.21-.61.07-.28-.14-1.19-.44-2.27-1.4-.84-.75-1.41-1.68-1.57-1.96-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34 0 1.38 1.01 2.71 1.15 2.9.14.19 1.99 3.03 4.82 4.25.67.29 1.19.46 1.6.59.67.21 1.28.18 1.76.11.54-.08 1.64-.67 1.87-1.32.23-.65.23-1.2.16-1.32-.07-.12-.26-.19-.54-.33z"/>
             <path d="M26.67 5.33A14.62 14.62 0 0 0 16.02 1C8.06 1 1.6 7.46 1.6 15.42c0 2.53.66 5 1.9 7.18L1.5 31l8.58-1.95a14.34 14.34 0 0 0 6.94 1.77h.01c7.96 0 14.42-6.46 14.42-14.42 0-3.85-1.5-7.47-4.18-10.07zM16.02 28.4h-.01a12 12 0 0 1-6.12-1.67l-.44-.26-5.09 1.16 1.08-4.96-.29-.51a12 12 0 1 1 22.1-6.75c0 6.62-5.39 12-12.03 12z"/>
           </svg>
           Comprar
         </button>
 
-        <div class="micro">          
-          
+        <!-- Redes debajo del botón -->
+        <div class="socialRow" aria-label="Redes sociales">
+          <!-- Facebook -->
+          <a class="socialLink" href="https://facebook.com/respiracafe" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" class="iconFill" aria-hidden="true">
+              <path d="M13.5 22v-8h2.7l.4-3h-3.1V9.2c0-.9.3-1.5 1.6-1.5H17V5.1c-.4-.1-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.3V11H8v3h2.4v8h3.1z"/>
+            </svg>
+          </a>
+
+          <!-- Instagram (corregido, stroke clean) -->
+          <a class="socialLink" href="https://www.instagram.com/respiracafe.colombia/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" class="iconStroke" aria-hidden="true">
+              <rect x="6.2" y="6.2" width="11.6" height="11.6" rx="3.2"></rect>
+              <circle cx="12" cy="12" r="3.2"></circle>
+              <circle cx="15.8" cy="8.2" r="0.7" fill="var(--gold)" stroke="none"></circle>
+            </svg>
+          </a>
+
+          <!-- TikTok -->
+          <a class="socialLink" href="https://www.tiktok.com/@respiracafe.colombia" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" class="iconFill" aria-hidden="true">
+              <path d="M16.5 3c.3 1.5 1.3 2.8 2.8 3.3v3c-1.2 0-2.4-.3-3.4-.9v6.2a5 5 0 11-4.3-5v3.1a2 2 0 102 2V3h2.9z"/>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- Minimal dots -->
     <div class="dotsWrap" id="dots" aria-label="Selector de imágenes"></div>
   </div>
 
   <script>
-    // ===== CONFIG =====
-    // WhatsApp: 57 + número (sin +, sin espacios). Ej: 573001234567
-    const WHATSAPP_NUMBER = "573004154235"; // <-- CAMBIA ESTO
+    const WHATSAPP_NUMBER = "573004154235";
 
-    // 10 imágenes bonitas en background (sin banano).
-    // Reemplázalas por tus fotos cuando las tengas.
     const IMAGES = [
       "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=2400&q=85",
-      "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=2400&q=85",      
+      "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=2400&q=85",
       "https://images.unsplash.com/photo-1507133750040-4a8f57021571?auto=format&fit=crop&w=2400&q=85",
@@ -298,7 +339,6 @@
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Preload
     IMAGES.forEach(src => { const img = new Image(); img.src = src; });
 
     let index = 0;
@@ -309,12 +349,11 @@
       el.style.backgroundImage = `url("${src}")`;
       if (!reduceMotion) {
         el.classList.remove("kb");
-        void el.offsetWidth; // restart animation
+        void el.offsetWidth;
         el.classList.add("kb");
       }
     }
 
-    // Dots
     const dotButtons = IMAGES.map((_, i) => {
       const b = document.createElement("button");
       b.className = "dotBtn" + (i === 0 ? " active" : "");
@@ -353,19 +392,16 @@
       timer = setInterval(() => goTo(index + 1), SLIDE_MS);
     }
 
-    // Init
     setBg(bgA, IMAGES[0]);
     bgA.style.opacity = "1";
     bgB.style.opacity = "0";
     timer = setInterval(() => goTo(index + 1), SLIDE_MS);
 
-    // Keyboard arrows
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") goTo(index - 1, true);
       if (e.key === "ArrowRight") goTo(index + 1, true);
     });
 
-    // Swipe basic
     let touchX = null;
     stage.addEventListener("touchstart", (e) => { touchX = e.touches[0].clientX; }, {passive:true});
     stage.addEventListener("touchend", (e) => {
@@ -375,7 +411,6 @@
       if (Math.abs(dx) > 40) (dx < 0 ? goTo(index + 1, true) : goTo(index - 1, true));
     }, {passive:true});
 
-    // WhatsApp CTA
     function waMessage(){
       return encodeURIComponent(
         "Hola 👋 Vengo de Respira Café. " +
