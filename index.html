@@ -2,190 +2,497 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Respira Café de Colombia</title>
-  <meta name="description" content="Describe en una frase lo que haces y por qué importa." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Respira Café — Frontino, Antioquia</title>
+  <meta name="description" content="Café molido de montaña (Frontino, Antioquia). Libre de pesticidas. Compra por WhatsApp." />
+  <meta name="theme-color" content="#0f0c0a" />
+
   <style>
-    :root { --bg:#0b0f19; --card:#121a2b; --text:#e8eefc; --muted:#a8b3cf; --accent:#6aa5ff; }
+    :root{
+      --ink: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --faint: rgba(255,255,255,.52);
+      --line: rgba(255,255,255,.16);
+
+      --shadow: 0 24px 80px rgba(0,0,0,.48);
+      --glass: rgba(16,12,10,.28);
+      --glass2: rgba(16,12,10,.18);
+
+      --copper: #b07a52;
+      --r: 18px;
+      --r2: 999px;
+
+      --ease: cubic-bezier(.22,.9,.22,1);
+      --t1: 220ms var(--ease);
+      --t2: 900ms var(--ease);
+      --t3: 1400ms var(--ease);
+
+      --ui: 14px;
+    }
+
     *{ box-sizing:border-box; }
-    body{ margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:linear-gradient(180deg,#070a12, #0b0f19); color:var(--text); }
-    a{ color:inherit; }
-    .wrap{ max-width:1100px; margin:0 auto; padding:32px 20px; }
-    .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand{ font-weight:700; letter-spacing:.2px; }
-    .btn{ display:inline-block; padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.12); text-decoration:none; }
-    .btn.primary{ background:rgba(106,165,255,.16); border-color:rgba(106,165,255,.35); }
-    .hero{ padding:56px 0 26px; display:grid; grid-template-columns: 1.2fr .8fr; gap:26px; align-items:center; }
-    .h1{ font-size:44px; line-height:1.05; margin:0 0 12px; }
-    .sub{ color:var(--muted); font-size:18px; margin:0 0 18px; }
-    .ctaRow{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-    .pillRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
-    .pill{ font-size:13px; color:var(--muted); border:1px solid rgba(255,255,255,.12); padding:8px 10px; border-radius:999px; }
-    .card{ background:rgba(18,26,43,.7); border:1px solid rgba(255,255,255,.10); border-radius:18px; padding:18px; backdrop-filter: blur(10px); }
-    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
-    .section{ padding:26px 0; }
-    .kicker{ color:var(--muted); text-transform:uppercase; letter-spacing:.18em; font-size:12px; margin:0 0 10px; }
-    h2{ margin:0 0 12px; font-size:28px; }
-    p{ margin:0 0 12px; color:var(--muted); }
-    ul{ margin:0; padding-left:18px; color:var(--muted); }
-    li{ margin:6px 0; }
-    .how{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; }
-    .stepNum{ font-weight:700; color:var(--accent); }
-    .faq details{ border:1px solid rgba(255,255,255,.10); border-radius:14px; padding:14px; background:rgba(18,26,43,.5); }
-    .faq summary{ cursor:pointer; font-weight:600; }
-    .form{ display:grid; gap:10px; }
-    input, textarea{ width:100%; padding:12px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.14); background:rgba(11,15,25,.7); color:var(--text); }
-    .foot{ border-top:1px solid rgba(255,255,255,.08); padding-top:20px; color:var(--muted); font-size:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
-    @media (max-width: 900px){
-      .hero{ grid-template-columns: 1fr; padding-top:34px; }
-      .h1{ font-size:36px; }
-      .grid3, .how{ grid-template-columns: 1fr; }
+    html, body{ height:100%; margin:0; padding:0; }
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background:#0f0c0a;
+      color: var(--ink);
+      overflow:hidden; /* single screen */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ===== Fullscreen Stage ===== */
+    .stage{
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      isolation: isolate;
+      background:#0f0c0a;
+    }
+
+    /* Two layers for perfect crossfade */
+    .bg{
+      position:absolute;
+      inset:0;
+      background-size: cover;
+      background-position: center;
+      will-change: opacity, transform;
+      transform: scale(1.03);
+      filter: saturate(1.06) contrast(1.03);
+    }
+    .bg.a{ opacity: 1; }
+    .bg.b{ opacity: 0; }
+
+    /* Gentle “Ken Burns” motion (subtle) */
+    .kb{
+      animation: kbMove 12s var(--ease) both;
+    }
+    @keyframes kbMove{
+      0%   { transform: scale(1.03) translate3d(0,0,0); }
+      100% { transform: scale(1.08) translate3d(-1.2%, -1.2%, 0); }
+    }
+
+    /* Cinematic overlay */
+    .vignette{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 520px at 18% 22%, rgba(176,122,82,.16), transparent 62%),
+        radial-gradient(1000px 620px at 88% 14%, rgba(0,0,0,.30), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.50));
+      z-index: 2;
+    }
+
+    /* Fine grain (very subtle, premium feel) */
+    .grain{
+      position:absolute; inset:0;
+      pointer-events:none;
+      z-index: 3;
+      opacity: .06;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+      mix-blend-mode: overlay;
+    }
+
+    /* ===== Minimal UI ===== */
+    .top{
+      position:absolute;
+      left: 0; right: 0; top: 0;
+      z-index: 5;
+      padding: 18px 18px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--r2);
+      background: var(--glass2);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(12px);
+    }
+    .mark{
+      width: 34px; height: 34px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(176,122,82,.40), rgba(255,255,255,.10));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 36px rgba(0,0,0,.24);
+      flex: 0 0 auto;
+    }
+    .brand strong{
+      display:block;
+      font-weight: 950;
+      letter-spacing: .2px;
+      line-height: 1.05;
+      font-size: 14px;
+    }
+    .brand span{
+      display:block;
+      margin-top: 2px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--r2);
+      background: var(--glass2);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(12px);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .dot{
+      width: 7px; height: 7px;
+      border-radius: 99px;
+      background: var(--copper);
+      box-shadow: 0 0 0 5px rgba(176,122,82,.14);
+    }
+
+    /* Center copy block (clean editorial) */
+    .center{
+      position:absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 6;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap: 16px;
+      flex-wrap:wrap;
+    }
+
+    .copy{
+      max-width: 680px;
+      padding: 18px 18px;
+      border-radius: var(--r);
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(30px, 3.4vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      font-weight: 980;
+    }
+    .sub{
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 62ch;
+      font-weight: 650;
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      color: var(--ink);
+      font-weight: 920;
+      cursor:pointer;
+      user-select:none;
+      backdrop-filter: blur(12px);
+      transition: transform var(--t1), background var(--t1), border-color var(--t1);
+      box-shadow: 0 14px 40px rgba(0,0,0,.26);
+      white-space: nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.11);
+      border-color: rgba(255,255,255,.18);
+    }
+    .btn:active{ transform: translateY(0); }
+
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(176,122,82,.38), rgba(255,255,255,.10));
+      border-color: rgba(176,122,82,.38);
+    }
+
+    .btn.icon{
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      border-radius: 18px;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .hint{
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      margin-top: 10px;
+    }
+
+    /* Dots */
+    .dots{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      padding: 10px 12px;
+      border-radius: var(--r2);
+      background: var(--glass2);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(12px);
+    }
+    .dotBtn{
+      width: 8px; height: 8px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.32);
+      border: none;
+      cursor:pointer;
+      padding:0;
+      transition: transform var(--t1), background var(--t1);
+    }
+    .dotBtn:hover{ transform: scale(1.2); background: rgba(255,255,255,.46); }
+    .dotBtn.active{ background: rgba(255,255,255,.86); }
+
+    /* Right-bottom micro controls */
+    .controls{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    /* Small screens */
+    @media (max-width: 740px){
+      .pill{ display:none; }
+      .copy{ width: 100%; }
+      .controls{ width: 100%; justify-content:space-between; }
+      .btn.icon{ width: 44px; height: 44px; border-radius: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .kb{ animation: none !important; }
+      .bg{ transition:none !important; }
+      *{ scroll-behavior:auto !important; }
     }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="nav">
-      <div class="brand">TU MARCA</div>
-      <div style="display:flex; gap:10px; align-items:center;">
-        <a class="btn" href="#beneficios">Beneficios</a>
-        <a class="btn primary" href="#contacto">Quiero una demo</a>
-      </div>
-    </div>
+  <div class="stage" id="stage">
+    <div class="bg a" id="bgA"></div>
+    <div class="bg b" id="bgB"></div>
+    <div class="vignette"></div>
+    <div class="grain"></div>
 
-    <!-- HERO -->
-    <div class="hero">
-      <div>
-        <p class="kicker">Propuesta de valor</p>
-        <h1 class="h1">Ayudamos a <u>tu cliente</u> a lograr <u>resultado</u> sin <u>dolor</u>.</h1>
-        <p class="sub">Una frase clara: qué haces, para quién y por qué es mejor. (Aquí va tu promesa principal.)</p>
-        <div class="ctaRow">
-          <a class="btn primary" href="#contacto">Pedir demo / cotización</a>
-          <a class="btn" href="#como">Ver cómo funciona</a>
-        </div>
-        <div class="pillRow">
-          <span class="pill">✅ Rápido de implementar</span>
-          <span class="pill">🔒 Enfoque en seguridad</span>
-          <span class="pill">📈 Mejor conversión</span>
+    <div class="top">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <strong>Respira Café</strong>
+          <span>Frontino, Antioquia • Café de Colombia</span>
         </div>
       </div>
 
-      <div class="card">
-        <p class="kicker">En 30 segundos</p>
-        <h2>¿Qué obtienes?</h2>
-        <ul>
-          <li>Resultado 1 (ej: más leads, menos tiempo, menos costo).</li>
-          <li>Resultado 2 (ej: control, trazabilidad, reportes).</li>
-          <li>Resultado 3 (ej: automatización y seguimiento).</li>
-        </ul>
-        <p style="margin-top:12px;">📩 <a href="#contacto">Déjanos tus datos</a> y te contactamos hoy.</p>
+      <div class="pill" aria-label="Propuesta de valor">
+        <span class="dot" aria-hidden="true"></span>
+        Libre de pesticidas
       </div>
     </div>
 
-    <!-- PROBLEMA / SOLUCIÓN -->
-    <div class="section grid3">
-      <div class="card">
-        <p class="kicker">Problema</p>
-        <h2>Hoy pasa esto</h2>
-        <p>Describe el dolor real en lenguaje simple (sin tecnicismos).</p>
+    <div class="center">
+      <div class="copy">
+        <h1>
+          Café de montaña,<br/>
+          <span style="color: rgba(176,122,82,.95);">minimal y auténtico</span>.
+        </h1>
+        <p class="sub">
+          Café molido de las montañas de Frontino, Antioquia. Un sabor equilibrado, aroma presente
+          y un cultivo más limpio — sin ruido, sin exceso.
+        </p>
+        <div class="hint" id="hint">Desliza en móvil · Usa ← → en teclado</div>
       </div>
-      <div class="card">
-        <p class="kicker">Costo</p>
-        <h2>Te cuesta</h2>
-        <p>Tiempo, plata, errores, mala experiencia del cliente, riesgo…</p>
+
+      <div class="controls">
+        <div class="dots" id="dots" aria-label="Selector de imágenes"></div>
+
+        <button class="btn icon" id="prev" aria-label="Anterior">‹</button>
+        <button class="btn icon" id="next" aria-label="Siguiente">›</button>
+
+        <button class="btn primary" id="ctaWA" aria-label="Comprar por WhatsApp">
+          WhatsApp
+        </button>
       </div>
-      <div class="card">
-        <p class="kicker">Solución</p>
-        <h2>Nosotros lo resolvemos</h2>
-        <p>En una frase: qué haces distinto y por qué funciona.</p>
-      </div>
-    </div>
-
-    <!-- BENEFICIOS -->
-    <div id="beneficios" class="section">
-      <p class="kicker">Beneficios</p>
-      <h2>Lo que mejora desde el día 1</h2>
-      <div class="grid3">
-        <div class="card"><h3>🚀 Velocidad</h3><p>Reduce tiempos y fricción en el proceso.</p></div>
-        <div class="card"><h3>🎯 Conversión</h3><p>Mejora el embudo con seguimiento y claridad.</p></div>
-        <div class="card"><h3>🧾 Trazabilidad</h3><p>Registros, evidencia y reportes para control.</p></div>
-      </div>
-    </div>
-
-    <!-- CÓMO FUNCIONA -->
-    <div id="como" class="section">
-      <p class="kicker">Cómo funciona</p>
-      <h2>3 pasos</h2>
-      <div class="how">
-        <div class="card">
-          <div class="stepNum">1) Configura</div>
-          <p>Te guiamos con una puesta en marcha simple.</p>
-        </div>
-        <div class="card">
-          <div class="stepNum">2) Ejecuta</div>
-          <p>Tu equipo usa el flujo principal sin complicarse.</p>
-        </div>
-        <div class="card">
-          <div class="stepNum">3) Mide</div>
-          <p>Dashboards + reportes para mejorar semana a semana.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="section faq">
-      <p class="kicker">Preguntas frecuentes</p>
-      <h2>FAQ</h2>
-      <div style="display:grid; gap:10px;">
-        <details>
-          <summary>¿Cuánto cuesta?</summary>
-          <p>Coloca “desde $X/mes” o “te cotizamos según tamaño”.</p>
-        </details>
-        <details>
-          <summary>¿Cuánto tarda implementarlo?</summary>
-          <p>Ej: “48 horas” o “1 semana”, según tu realidad.</p>
-        </details>
-        <details>
-          <summary>¿Qué necesito para empezar?</summary>
-          <p>Ej: “Nombre, correo, y una breve descripción de tu operación”.</p>
-        </details>
-      </div>
-    </div>
-
-    <!-- CONTACTO -->
-    <div id="contacto" class="section">
-      <p class="kicker">Contacto</p>
-      <h2>Te contactamos</h2>
-      <p>Déjanos tus datos y te escribimos por WhatsApp/correo.</p>
-
-      <!-- Para producción: conectar con Formspree, Netlify Forms o tu backend -->
-      <form class="card form" onsubmit="return handleSubmit(event)">
-        <input name="nombre" placeholder="Tu nombre" required />
-        <input type="email" name="email" placeholder="Tu email" required />
-        <input name="whatsapp" placeholder="Tu WhatsApp (opcional)" />
-        <textarea name="mensaje" rows="4" placeholder="Cuéntame qué necesitas (opcional)"></textarea>
-        <button class="btn primary" type="submit">Enviar</button>
-        <div id="msg" style="color:var(--muted); font-size:14px;"></div>
-      </form>
-    </div>
-
-    <div class="foot">
-      <div>© <span id="year"></span> TU MARCA — Todos los derechos reservados.</div>
-      <div><a href="#">Política de privacidad</a> · <a href="#">Términos</a></div>
     </div>
   </div>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    // ====== CONFIG ======
+    // WhatsApp: 57 + número (sin +, sin espacios). Ej: 573001234567
+    const WHATSAPP_NUMBER = "57XXXXXXXXXX"; // <-- CAMBIA ESTO
 
-    function handleSubmit(e){
-      e.preventDefault();
-      const msg = document.getElementById("msg");
-      msg.textContent = "✅ Listo. (Demo) Aquí conectaríamos el envío real del formulario.";
-      // Aquí luego lo conectamos a: Formspree / Netlify Forms / tu API
-      e.target.reset();
-      return false;
+    // 10 imágenes (background). Puedes reemplazarlas por tus fotos.
+    // Tip pro: usa imágenes coherentes en tono/estética para que se vea “marca”.
+    const IMAGES = [
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1507133750040-4a8f57021571?auto=format&fit=crop&w=2400&q=85",
+      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=2400&q=85"
+    ];
+
+    // Duración por slide (ms)
+    const SLIDE_MS = 5200;
+    const FADE_MS  = 900;
+
+    // ====== ELEMENTS ======
+    const bgA = document.getElementById("bgA");
+    const bgB = document.getElementById("bgB");
+    const dotsEl = document.getElementById("dots");
+    const prevBtn = document.getElementById("prev");
+    const nextBtn = document.getElementById("next");
+    const ctaWA = document.getElementById("ctaWA");
+    const stage = document.getElementById("stage");
+
+    // Reduced motion
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ====== PRELOAD (avoids “template jitter”) ======
+    IMAGES.forEach(src => { const img = new Image(); img.src = src; });
+
+    // ====== SLIDER STATE ======
+    let index = 0;
+    let showingA = true;
+    let timer = null;
+
+    function setBg(el, src){
+      el.style.backgroundImage = `url("${src}")`;
+      if (!reduceMotion) {
+        el.classList.remove("kb");
+        // restart animation
+        void el.offsetWidth;
+        el.classList.add("kb");
+      }
     }
+
+    // Dots
+    const dotButtons = IMAGES.map((_, i) => {
+      const b = document.createElement("button");
+      b.className = "dotBtn" + (i === 0 ? " active" : "");
+      b.type = "button";
+      b.ariaLabel = `Imagen ${i+1}`;
+      b.addEventListener("click", () => goTo(i, true));
+      dotsEl.appendChild(b);
+      return b;
+    });
+
+    function updateDots(){
+      dotButtons.forEach((d, i) => d.classList.toggle("active", i === index));
+    }
+
+    // Crossfade
+    function goTo(i, userInitiated=false){
+      const nextIndex = (i + IMAGES.length) % IMAGES.length;
+      if (nextIndex === index && !userInitiated) return;
+
+      index = nextIndex;
+      updateDots();
+
+      const inEl  = showingA ? bgB : bgA;
+      const outEl = showingA ? bgA : bgB;
+
+      setBg(inEl, IMAGES[index]);
+
+      // start fade
+      inEl.style.transition = reduceMotion ? "none" : `opacity ${FADE_MS}ms var(--ease)`;
+      outEl.style.transition = reduceMotion ? "none" : `opacity ${FADE_MS}ms var(--ease)`;
+
+      inEl.style.opacity = "1";
+      outEl.style.opacity = "0";
+
+      showingA = !showingA;
+
+      // reset autoplay
+      if (timer) clearInterval(timer);
+      timer = setInterval(() => goTo(index + 1), SLIDE_MS);
+    }
+
+    // Init
+    setBg(bgA, IMAGES[0]);
+    bgA.style.opacity = "1";
+    bgB.style.opacity = "0";
+
+    timer = setInterval(() => goTo(index + 1), SLIDE_MS);
+
+    // Controls
+    prevBtn.addEventListener("click", () => goTo(index - 1, true));
+    nextBtn.addEventListener("click", () => goTo(index + 1, true));
+
+    // Keyboard
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") goTo(index - 1, true);
+      if (e.key === "ArrowRight") goTo(index + 1, true);
+    });
+
+    // Swipe (basic, premium-feel)
+    let touchX = null;
+    stage.addEventListener("touchstart", (e) => { touchX = e.touches[0].clientX; }, {passive:true});
+    stage.addEventListener("touchend", (e) => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) goTo(index + 1, true);
+        else goTo(index - 1, true);
+      }
+    }, {passive:true});
+
+    // WhatsApp CTA
+    function waMessage(){
+      return encodeURIComponent(
+        "Hola 👋 Vengo de Respira Café. " +
+        "Quiero comprar café molido de Frontino (libre de pesticidas). " +
+        "¿Qué presentaciones y precios tienen hoy?"
+      );
+    }
+    ctaWA.addEventListener("click", () => {
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage()}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
   </script>
 </body>
 </html>
